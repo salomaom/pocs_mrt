@@ -1,0 +1,24 @@
+<div class="container">
+  <div class="header">
+    <h1 class="title">POC - ng-keyboard-shortcuts</h1>
+    <button class="go-back" type="button" (click)="goBack()">VOLTAR</button>
+  </div>
+  <form>
+    <label for="name">Nome</label>
+    <input id="name" #name type="text" />
+
+    <label for="email">Email</label>
+    <input id="email" #email type="text" />
+
+    <label for="password">Senha</label>
+    <input id="password" #password type="password" />
+
+    <label for="password-confirmation">Confirmar senha</label>
+    <input id="password-confirmation" #passwordConfirmation type="password" />
+
+    <button #sendButton (click)="sendAnAlert()">Enviar</button>
+  </form>
+  <button (click)="swapHotkeys()">Trocar hotkeys</button>
+
+  <ng-keyboard-shortcuts [shortcuts]="shortcuts"></ng-keyboard-shortcuts>
+</div>

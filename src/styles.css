@@ -1,1 +1,70 @@
 /* You can add global styles to this file, and also import other style files */
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;900&display=swap");
+
+/* RESET CSS */
+
+html {
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ol,
+ul {
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+  font-family: "Lato", sans-serif;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* RESET CSS END */
+
+.container {
+  margin: 20px 30px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+}
+
+form > button {
+  width: 6rem;
+  margin-top: 20px;
+  align-self: flex-end;
+  padding: 10px 15px;
+}
+
+label {
+  margin-top: 10px;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+}
+
