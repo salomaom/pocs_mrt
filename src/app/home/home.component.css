@@ -1,0 +1,16 @@
+.gallery {
+  margin: auto;
+  max-width: 50%;
+}
+
+#carousel-container > .current-figure > #current-image {
+  filter: invert(1) !important;
+}
+
+.preview-image {
+  filter: invert(1) !important;
+}
+
+.slide-container{
+  margin: 0 15px;
+}

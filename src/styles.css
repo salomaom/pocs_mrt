@@ -1,6 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;900&display=swap");
-
+@import "~@angular/cdk/overlay-prebuilt.css";
+.ks-modal-gallery-backdrop {
+  background: #000 !important;
+  opacity: 0.85 !important;
+}
+.ks-modal-gallery-panel {
+  z-index: 90000 !important;
+}
 /* RESET CSS */
 
 html {
@@ -68,3 +75,5 @@ input {
   padding: 10px;
 }
 
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

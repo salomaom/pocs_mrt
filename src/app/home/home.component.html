@@ -3,3 +3,121 @@
 <a routerLink="/hotkeys">angular2-hotkeys</a>
 <br />
 <a routerLink="/shortcuts">ng-keyboard-shortcuts</a>
+
+<br />
+<br />
+<hr />
+<h1>IMAGENS</h1>
+<br />
+<div class="gallery">
+  <ks-carousel
+    [id]="100"
+    [images]="images"
+    [config]="galleryConfig"
+    (clickImage)="openImage(100, $event)"
+    [ngStyle]="imageStyle"
+  ></ks-carousel>
+</div>
+<p
+  style="
+    text-align: center;
+    width: 100%;
+    background-color: blueviolet;
+    color: white;
+    font-weight: bold;
+    padding: 10px;
+    font-size: 24px;
+  "
+>
+  {{ imageStyleToString(imageStyle) }}
+</p>
+<div class="container" style="display: flex; justify-content: center;">
+  <div class="slide-container">
+    <p>brightness</p>
+    <mat-slider>
+      <input
+        matSliderThumb
+        [(value)]="brightnessValue"
+        (valueChange)="changeBrightnessValue($event)"
+      />
+    </mat-slider>
+    {{ brightnessValue }}
+  </div>
+  <div class="slide-container">
+    <p>contrast</p>
+    <mat-slider>
+      <input
+        matSliderThumb
+        [(value)]="contrastValue"
+        (valueChange)="changeContrastValue($event)"
+      />
+    </mat-slider>
+    {{ contrastValue }}
+  </div>
+  <div class="slide-container">
+    <p>grayscale</p>
+    <mat-slider>
+      <input
+        matSliderThumb
+        [(value)]="grayscaleValue"
+        (valueChange)="changeGrayscaleValue($event)"
+      />
+    </mat-slider>
+    {{ grayscaleValue }}
+  </div>
+  <div>
+    <p>hue-rotate</p>
+    <mat-slider min="0" max="360">
+      <input
+        matSliderThumb
+        [(value)]="hueValue"
+        (valueChange)="changeHueValue($event)"
+      />
+    </mat-slider>
+    {{ hueValue }}
+  </div>
+  <div class="slide-container">
+    <p>invert</p>
+    <mat-slider>
+      <input
+        matSliderThumb
+        [(value)]="invertValue"
+        (valueChange)="changeInvertValue($event)"
+      />
+    </mat-slider>
+    {{ invertValue }}
+  </div>
+  <div class="slide-container">
+    <p>opacity</p>
+    <mat-slider>
+      <input
+        matSliderThumb
+        [(value)]="opacityValue"
+        (valueChange)="changeOpacityValue($event)"
+      />
+    </mat-slider>
+    {{ opacityValue }}
+  </div>
+  <div class="slide-container">
+    <p>saturate</p>
+    <mat-slider>
+      <input
+        matSliderThumb
+        [(value)]="saturateValue"
+        (valueChange)="changeSaturateValue($event)"
+      />
+    </mat-slider>
+    {{ saturateValue }}
+  </div>
+  <div class="slide-container">
+    <p>sepia</p>
+    <mat-slider>
+      <input
+        matSliderThumb
+        [(value)]="sepiaValue"
+        (valueChange)="changeSepiaValue($event)"
+      />
+    </mat-slider>
+    {{ sepiaValue }}
+  </div>
+</div>
