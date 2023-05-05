@@ -11,6 +11,64 @@
   filter: invert(1) !important;
 }
 
-.slide-container{
+.slide-container {
   margin: 0 15px;
 }
+
+.example-action-buttons {
+  padding-bottom: 20px;
+}
+
+.example-headers-align .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.example-headers-align .mat-mdc-form-field + .mat-mdc-form-field {
+  margin-left: 8px;
+}
+
+.my-app-custom-plain-container-with-desc {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+figure {
+  margin: 0;
+  position: relative;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  cursor: pointer;
+}
+
+figcaption {
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  font-size: 85%;
+  padding: 5px;
+  position: absolute;
+  bottom: 3px;
+  left: 0;
+  right: 0;
+}
+
+.description {
+  font-weight: 400;
+  text-align: center;
+}
+
+.my-app-custom-image-with-desc {
+  height: auto;
+  margin-right: 2px;
+  width: 200px;
+  align-self: start;
+}
+
+.sendButton {
+  height: 55px;
+  margin: 0 0 20px 10px}

@@ -53,27 +53,12 @@ img {
   margin: 20px 30px;
 }
 
-form {
-  display: flex;
-  flex-direction: column;
-  width: 30%;
+html,
+body {
+  height: 100%;
 }
 
-form > button {
-  width: 6rem;
-  margin-top: 20px;
-  align-self: flex-end;
-  padding: 10px 15px;
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
-
-label {
-  margin-top: 10px;
-}
-
-input {
-  width: 100%;
-  padding: 10px;
-}
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

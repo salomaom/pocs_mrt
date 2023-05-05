@@ -1,4 +1,4 @@
-<h1>POC em Angular</h1>
+<!-- <h1>POC em Angular</h1>
 
 <a routerLink="/hotkeys">angular2-hotkeys</a>
 <br />
@@ -6,8 +6,244 @@
 
 <br />
 <br />
-<hr />
-<h1>IMAGENS</h1>
+<hr /> -->
+<ng-keyboard-shortcuts [shortcuts]="shortcuts"></ng-keyboard-shortcuts>
+<div class="container">
+  <div class="example-action-buttons">
+    <button mat-button (click)="accordion.openAll()">Abrir Todos</button>
+    <button mat-button (click)="accordion.closeAll()">Fechar Todos</button>
+    <span style="margin-left: 20px"> | </span>
+    <button
+      mat-button
+      color="primary"
+      (click)="swapHotkeys()"
+      style="margin-left: 20px"
+    >
+      Trocar Atalhos
+    </button>
+    {{ this.selectedHotkeys[0].key }}
+  </div>
+  <mat-accordion class="example-headers-align" multi>
+    <mat-expansion-panel [expanded]="filterPanelState">
+      <mat-expansion-panel-header>
+        <mat-panel-title>Filtros</mat-panel-title>
+        <mat-panel-description>
+          Escolher filtro da listagem de ocorrências [CTRL + 1 (3)]
+          <mat-icon>filter_list</mat-icon>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Operador</mat-label>
+        <input matInput #operator />
+      </mat-form-field>
+
+      <mat-form-field style="width: 400px" appearance="fill">
+        <mat-label>Tipo de Anomalia</mat-label>
+        <mat-select>
+          <mat-option value="one">Todos</mat-option>
+          <mat-option value="one">Via degradada</mat-option>
+          <mat-option value="one">Mais de 9 eixos</mat-option>
+          <mat-option value="one"
+            >rejeitados pelo OSA, Operador em verificação</mat-option
+          >
+          <mat-option value="one">Placas em verificação</mat-option>
+          <mat-option value="one">Eixos suspenso</mat-option>
+          <mat-option value="one">Tags em verificação</mat-option>
+          <mat-option value="one">Via em verificação</mat-option>
+          <mat-option value="one">Discrepância de eixos suspensos</mat-option>
+          <mat-option value="one">Discrepância de categoria</mat-option>
+          <mat-option value="one">Isentos</mat-option>
+          <mat-option value="one">Passagem na via lateral</mat-option>
+          <mat-option value="one">Manutenção</mat-option>
+          <mat-option value="one">Sem classificação e sem detecção</mat-option>
+          <mat-option value="one">Simulação</mat-option>
+          <mat-option value="one">Retorno Operacional</mat-option>
+          <mat-option value="one">Descontos</mat-option>
+          <mat-option value="one">Tag em via manual</mat-option>
+          <mat-option value="one">Violação</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button
+        class="sendButton"
+        mat-raised-button
+        color="primary"
+        (click)="filter()"
+      >
+        Buscar
+      </button>
+    </mat-expansion-panel>
+    <mat-expansion-panel [expanded]="anomaliesPanelState">
+      <mat-expansion-panel-header>
+        <mat-panel-title>Ocorrências</mat-panel-title>
+        <mat-panel-description>
+          Listagem de ocorrências e ações [CTRL + 2 (4) / CTRL + I (O) / CTRL +
+          R (T) / CTRL + A (S)]
+          <mat-icon>pending_actions</mat-icon>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <div class="my-app-custom-plain-container-with-desc">
+        <ng-container *ngFor="let img of images">
+          <figure class="my-app-custom-image-with-desc">
+            <img
+              [src]="img.modal.img"
+              [ngStyle]="imageStyle"
+              (click)="openImageModalRowDescription(206, img)"
+            />
+          </figure>
+        </ng-container>
+      </div>
+      <div class="container" style="display: flex; justify-content: center">
+        <div class="slide-container">
+          <p>brightness</p>
+          <mat-slider min="0" max="500">
+            <input
+              matSliderThumb
+              [(value)]="brightnessValue"
+              (valueChange)="changeBrightnessValue($event)"
+            />
+          </mat-slider>
+          {{ brightnessValue }}
+        </div>
+        <div class="slide-container">
+          <p>contrast</p>
+          <mat-slider min="0" max="500">
+            <input
+              matSliderThumb
+              [(value)]="contrastValue"
+              (valueChange)="changeContrastValue($event)"
+            />
+          </mat-slider>
+          {{ contrastValue }}
+        </div>
+        <div class="slide-container">
+          <p>grayscale</p>
+          <mat-slider>
+            <input
+              matSliderThumb
+              [(value)]="grayscaleValue"
+              (valueChange)="changeGrayscaleValue($event)"
+            />
+          </mat-slider>
+          {{ grayscaleValue }}
+        </div>
+        <div>
+          <p>hue-rotate</p>
+          <mat-slider min="0" max="360">
+            <input
+              matSliderThumb
+              [(value)]="hueValue"
+              (valueChange)="changeHueValue($event)"
+            />
+          </mat-slider>
+          {{ hueValue }}
+        </div>
+        <div class="slide-container">
+          <p>invert</p>
+          <mat-slider>
+            <input
+              matSliderThumb
+              [(value)]="invertValue"
+              (valueChange)="changeInvertValue($event)"
+            />
+          </mat-slider>
+          {{ invertValue }}
+        </div>
+        <div class="slide-container">
+          <p>opacity</p>
+          <mat-slider>
+            <input
+              matSliderThumb
+              [(value)]="opacityValue"
+              (valueChange)="changeOpacityValue($event)"
+            />
+          </mat-slider>
+          {{ opacityValue }}
+        </div>
+        <div class="slide-container">
+          <p>saturate</p>
+          <mat-slider>
+            <input
+              matSliderThumb
+              [(value)]="saturateValue"
+              (valueChange)="changeSaturateValue($event)"
+            />
+          </mat-slider>
+          {{ saturateValue }}
+        </div>
+        <div class="slide-container">
+          <p>sepia</p>
+          <mat-slider>
+            <input
+              matSliderThumb
+              [(value)]="sepiaValue"
+              (valueChange)="changeSepiaValue($event)"
+            />
+          </mat-slider>
+          {{ sepiaValue }}
+        </div>
+      </div>
+
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <!-- Checkbox Column -->
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox
+              (change)="$event ? toggleAllRows() : null"
+              [checked]="selection.hasValue() && isAllSelected()"
+              [indeterminate]="selection.hasValue() && !isAllSelected()"
+              [aria-label]="checkboxLabel()"
+            >
+            </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox
+              (click)="$event.stopPropagation()"
+              (change)="$event ? selection.toggle(row) : null"
+              [checked]="selection.isSelected(row)"
+              [aria-label]="checkboxLabel(row)"
+            >
+            </mat-checkbox>
+          </td>
+        </ng-container>
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="position">
+          <th mat-header-cell *matHeaderCellDef>No.</th>
+          <td mat-cell *matCellDef="let element">{{ element.position }}</td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Name</th>
+          <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="weight">
+          <th mat-header-cell *matHeaderCellDef>Weight</th>
+          <td mat-cell *matCellDef="let element">{{ element.weight }}</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="symbol">
+          <th mat-header-cell *matHeaderCellDef>Symbol</th>
+          <td mat-cell *matCellDef="let element">{{ element.symbol }}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; columns: displayedColumns"
+          (click)="selection.toggle(row)"
+        ></tr>
+      </table>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
+
+<!-- <h1>IMAGENS</h1>
 <br />
 <div class="gallery">
   <ks-carousel
@@ -17,8 +253,8 @@
     (clickImage)="openImage(100, $event)"
     [ngStyle]="imageStyle"
   ></ks-carousel>
-</div>
-<p
+</div> -->
+<!-- <p
   style="
     text-align: center;
     width: 100%;
@@ -30,94 +266,4 @@
   "
 >
   {{ imageStyleToString(imageStyle) }}
-</p>
-<div class="container" style="display: flex; justify-content: center;">
-  <div class="slide-container">
-    <p>brightness</p>
-    <mat-slider>
-      <input
-        matSliderThumb
-        [(value)]="brightnessValue"
-        (valueChange)="changeBrightnessValue($event)"
-      />
-    </mat-slider>
-    {{ brightnessValue }}
-  </div>
-  <div class="slide-container">
-    <p>contrast</p>
-    <mat-slider>
-      <input
-        matSliderThumb
-        [(value)]="contrastValue"
-        (valueChange)="changeContrastValue($event)"
-      />
-    </mat-slider>
-    {{ contrastValue }}
-  </div>
-  <div class="slide-container">
-    <p>grayscale</p>
-    <mat-slider>
-      <input
-        matSliderThumb
-        [(value)]="grayscaleValue"
-        (valueChange)="changeGrayscaleValue($event)"
-      />
-    </mat-slider>
-    {{ grayscaleValue }}
-  </div>
-  <div>
-    <p>hue-rotate</p>
-    <mat-slider min="0" max="360">
-      <input
-        matSliderThumb
-        [(value)]="hueValue"
-        (valueChange)="changeHueValue($event)"
-      />
-    </mat-slider>
-    {{ hueValue }}
-  </div>
-  <div class="slide-container">
-    <p>invert</p>
-    <mat-slider>
-      <input
-        matSliderThumb
-        [(value)]="invertValue"
-        (valueChange)="changeInvertValue($event)"
-      />
-    </mat-slider>
-    {{ invertValue }}
-  </div>
-  <div class="slide-container">
-    <p>opacity</p>
-    <mat-slider>
-      <input
-        matSliderThumb
-        [(value)]="opacityValue"
-        (valueChange)="changeOpacityValue($event)"
-      />
-    </mat-slider>
-    {{ opacityValue }}
-  </div>
-  <div class="slide-container">
-    <p>saturate</p>
-    <mat-slider>
-      <input
-        matSliderThumb
-        [(value)]="saturateValue"
-        (valueChange)="changeSaturateValue($event)"
-      />
-    </mat-slider>
-    {{ saturateValue }}
-  </div>
-  <div class="slide-container">
-    <p>sepia</p>
-    <mat-slider>
-      <input
-        matSliderThumb
-        [(value)]="sepiaValue"
-        (valueChange)="changeSepiaValue($event)"
-      />
-    </mat-slider>
-    {{ sepiaValue }}
-  </div>
-</div>
+</p> -->
