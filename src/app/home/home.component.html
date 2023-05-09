@@ -83,16 +83,16 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
 
-      <div class="my-app-custom-plain-container-with-desc">
-        <ng-container *ngFor="let img of images">
-          <figure class="my-app-custom-image-with-desc">
-            <img
-              [src]="img.modal.img"
-              [ngStyle]="imageStyle"
-              (click)="openImageModalRowDescription(206, img)"
-            />
-          </figure>
-        </ng-container>
+      <div class="gallery">
+        <span *ngFor="let image of lgImages; let i = index">
+          <img
+            (click)="openLightBox(i)"
+            class="lg-image"
+            alt="img1"
+            [src]="image"
+            [ngStyle]="imageStyle"
+          />
+        </span>
       </div>
       <div class="container" style="display: flex; justify-content: center">
         <div class="slide-container">
@@ -242,6 +242,39 @@
     </mat-expansion-panel>
   </mat-accordion>
 </div>
+
+<ng-template
+  #previewsTemplate
+  let-preview="preview"
+  let-defaultTemplate="defaultTemplate"
+>
+  <div class="preview-block">
+    <div class="preview-date">{{ preview.modal.pictureDate | date }}</div>
+    <div class="preview-default" [ngStyle]="imageStyle">
+      <ng-container *ngTemplateOutlet="defaultTemplate"></ng-container>
+    </div>
+  </div>
+</ng-template>
+
+<div class="light-box-container" *ngIf="isLightBoxOpen">
+  <div class="lb-close-container">
+    <mat-icon (click)="closeLightBox()" class="lb-icon lb-close"
+      >highlight_off</mat-icon
+    >
+  </div>
+  <div class="light-box">
+    <mat-icon (click)="prev()" class="left lb-icon">play_arrow</mat-icon>
+    <img
+      class="light-box-image"
+      [src]="currentLightboxImage"
+      alt="one"
+      [ngStyle]="imageStyle"
+    />
+    <mat-icon (click)="next()" class="right lb-icon">play_arrow</mat-icon>
+  </div>
+  <span>COUNT</span>
+</div>
+<div class="overlay" *ngIf="isLightBoxOpen"></div>
 
 <!-- <h1>IMAGENS</h1>
 <br />

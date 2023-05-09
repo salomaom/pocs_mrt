@@ -14,6 +14,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 
+import { LightgalleryModule } from 'lightgallery/angular';
+
 import { KeyboardShortcutsModule } from 'ng-keyboard-shortcuts';
 import { HotkeyModule } from 'angular2-hotkeys';
 import 'hammerjs';
@@ -59,6 +61,7 @@ import { StringfyPipe } from './pipes/stringfy.pipe';
     MatCheckboxModule,
     MatTableModule,
     MatButtonModule,
+    LightgalleryModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

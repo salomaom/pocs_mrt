@@ -62,3 +62,7 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+.lg-backdrop {
+  opacity: 0.7 !important;
+}

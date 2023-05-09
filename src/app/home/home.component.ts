@@ -6,12 +6,16 @@ import {
   OnChanges,
   SimpleChanges,
   Input,
+  TemplateRef,
+  ChangeDetectorRef,
+  Renderer2,
 } from '@angular/core';
-
 import { SelectionModel } from '@angular/cdk/collections';
-
 import { MatAccordion } from '@angular/material/expansion';
 import { MatTable } from '@angular/material/table';
+
+import { LightGallery } from 'lightgallery/lightgallery';
+import lgZoom from 'lightgallery/plugins/zoom';
 
 import { ShortcutInput, AllowIn } from 'ng-keyboard-shortcuts';
 
@@ -20,9 +24,16 @@ import {
   CarouselLibConfig,
   ModalGalleryRef,
   ModalGalleryService,
+  PlainLibConfig,
+  ModalGalleryConfig,
 } from '@ks89/angular-modal-gallery';
 
 import { SignalrService } from '../services/websocket/signalr.service';
+import {
+  AfterOpenDetail,
+  BeforeSlideDetail,
+  InitDetail,
+} from 'lightgallery/lg-events';
 
 export interface PeriodicElement {
   name: string;
@@ -39,8 +50,16 @@ export interface PeriodicElement {
 export class HomeComponent implements AfterViewInit {
   @ViewChild(MatAccordion) accordion: MatAccordion;
   @ViewChild('operator', { static: true }) operator: ElementRef;
+  @ViewChild('previewsTemplate') previewsTemplate?: TemplateRef<HTMLElement>;
   @Input() filterPanelState: boolean = true;
+
   anomaliesPanelState: boolean = false;
+  private lightGallery!: LightGallery;
+
+  onInit = (detail: InitDetail): void => {
+    console.log('INIT', detail);
+    this.lightGallery = detail.instance;
+  };
 
   displayedColumns: string[] = [
     'select',
@@ -109,6 +128,38 @@ export class HomeComponent implements AfterViewInit {
       preventDefault: true,
       command: () => {
         this.accordion.closeAll();
+      },
+    },
+    {
+      key: 'left',
+      AllowIn: [AllowIn.Input, AllowIn.Select, AllowIn.Textarea],
+      preventDefault: true,
+      command: () => {
+        this.prev();
+      },
+    },
+    {
+      key: 'right',
+      AllowIn: [AllowIn.Input, AllowIn.Select, AllowIn.Textarea],
+      preventDefault: true,
+      command: () => {
+        this.next();
+      },
+    },
+    {
+      key: 'escape',
+      AllowIn: [AllowIn.Input, AllowIn.Select, AllowIn.Textarea],
+      preventDefault: true,
+      command: () => {
+        this.closeLightBox();
+      },
+    },
+    {
+      key: 'ctrl + p',
+      AllowIn: [AllowIn.Input, AllowIn.Select, AllowIn.Textarea],
+      preventDefault: true,
+      command: () => {
+        this.openLightBox(0);
       },
     },
   ];
@@ -190,6 +241,10 @@ export class HomeComponent implements AfterViewInit {
       this.opacityValue / 100
     }) saturate(${this.saturateValue / 100}) sepia(${this.sepiaValue / 100})`,
   };
+  settings = {
+    counter: false,
+    plugins: [lgZoom],
+  };
   images: Image[] = [
     new Image(
       0,
@@ -232,6 +287,37 @@ export class HomeComponent implements AfterViewInit {
       { img: '/assets/images/pic_8.jpg' }
     ),
   ];
+
+  currentIndex = 0;
+
+  next(): void {
+    this.currentIndex = this.currentIndex + 1;
+    if (this.currentIndex > this.lgImages.length - 1) {
+      this.currentIndex = 0;
+    }
+    this.currentLightboxImage = this.lgImages[this.currentIndex];
+  }
+
+  prev(): void {
+    this.currentIndex = this.currentIndex - 1;
+    if (this.currentIndex < 0) {
+      this.currentIndex = this.lgImages.length - 1;
+    }
+    this.currentLightboxImage = this.lgImages[this.currentIndex];
+  }
+
+  lgImages: string[] = [
+    '/assets/images/pic_1.jpg',
+    '/assets/images/pic_2.jpg',
+    '/assets/images/pic_3.jpg',
+    '/assets/images/pic_4.jpg',
+    '/assets/images/pic_5.jpg',
+    '/assets/images/pic_6.jpg',
+    '/assets/images/pic_7.jpg',
+    '/assets/images/pic_8.jpg',
+  ];
+
+  currentLightboxImage = this.lgImages[this.currentIndex];
   galleryConfig: CarouselLibConfig = {
     carouselPreviewsConfig: {
       visible: true,
@@ -253,24 +339,47 @@ export class HomeComponent implements AfterViewInit {
     },
   };
 
+  openLightBox(index: number) {
+    this.currentIndex = index;
+    this.currentLightboxImage = this.lgImages[this.currentIndex];
+    this.isLightBoxOpen = true;
+  }
+
+  closeLightBox() {
+    this.isLightBoxOpen = false;
+  }
+
+  isLightBoxOpen = false;
+
   constructor(
     private modalGalleryService: ModalGalleryService,
-    private ws: SignalrService
+    private ws: SignalrService,
+    private renderer: Renderer2
   ) {
-    this.ws.connect((anomaly: string) => {
-      this.dataSource.push({
-        position: 1,
-        name: anomaly,
-        weight: 1.0079,
-        symbol: 'H',
-      });
-      this.table.renderRows();
-    });
+    // this.ws.connect((anomaly: string) => {
+    //   this.dataSource.push({
+    //     position: 1,
+    //     name: anomaly,
+    //     weight: 1.0079,
+    //     symbol: 'H',
+    //   });
+    //   this.table.renderRows();
+    // });
   }
 
   ngAfterViewInit(): void {
+    console.log('TESTAO', this.imageStyle);
+
     this.shortcuts.push(...this.selectedHotkeys);
   }
+
+  afterOpen = (): void => {
+    console.log('MEEUUUU', this.lightGallery);
+    const images = document.querySelectorAll<HTMLElement>('.lg-item');
+    images.forEach((image) => {
+      this.renderer.setStyle(image, 'filter', this.imageStyle.filter);
+    });
+  };
 
   openImageModalRowDescription(id: number, image: Image): void {
     const index: number = this.getCurrentIndexCustomLayout(image, this.images);
@@ -278,7 +387,14 @@ export class HomeComponent implements AfterViewInit {
       id,
       images: this.images,
       currentImage: this.images[index],
-    }) as ModalGalleryRef;
+      libConfig: {
+        previewConfig: {
+          visible: false,
+        },
+        currentImageConfig: {},
+      } as PlainLibConfig,
+      previewsTemplate: this.previewsTemplate,
+    } as ModalGalleryConfig) as ModalGalleryRef;
   }
 
   private getCurrentIndexCustomLayout(image: Image, images: Image[]): number {
