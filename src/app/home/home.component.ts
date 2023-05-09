@@ -14,9 +14,6 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { MatAccordion } from '@angular/material/expansion';
 import { MatTable } from '@angular/material/table';
 
-import { LightGallery } from 'lightgallery/lightgallery';
-import lgZoom from 'lightgallery/plugins/zoom';
-
 import { ShortcutInput, AllowIn } from 'ng-keyboard-shortcuts';
 
 import {
@@ -29,11 +26,6 @@ import {
 } from '@ks89/angular-modal-gallery';
 
 import { SignalrService } from '../services/websocket/signalr.service';
-import {
-  AfterOpenDetail,
-  BeforeSlideDetail,
-  InitDetail,
-} from 'lightgallery/lg-events';
 
 export interface PeriodicElement {
   name: string;
@@ -54,12 +46,6 @@ export class HomeComponent implements AfterViewInit {
   @Input() filterPanelState: boolean = true;
 
   anomaliesPanelState: boolean = false;
-  private lightGallery!: LightGallery;
-
-  onInit = (detail: InitDetail): void => {
-    console.log('INIT', detail);
-    this.lightGallery = detail.instance;
-  };
 
   displayedColumns: string[] = [
     'select',
@@ -241,10 +227,7 @@ export class HomeComponent implements AfterViewInit {
       this.opacityValue / 100
     }) saturate(${this.saturateValue / 100}) sepia(${this.sepiaValue / 100})`,
   };
-  settings = {
-    counter: false,
-    plugins: [lgZoom],
-  };
+
   images: Image[] = [
     new Image(
       0,
@@ -368,18 +351,8 @@ export class HomeComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    console.log('TESTAO', this.imageStyle);
-
     this.shortcuts.push(...this.selectedHotkeys);
   }
-
-  afterOpen = (): void => {
-    console.log('MEEUUUU', this.lightGallery);
-    const images = document.querySelectorAll<HTMLElement>('.lg-item');
-    images.forEach((image) => {
-      this.renderer.setStyle(image, 'filter', this.imageStyle.filter);
-    });
-  };
 
   openImageModalRowDescription(id: number, image: Image): void {
     const index: number = this.getCurrentIndexCustomLayout(image, this.images);
