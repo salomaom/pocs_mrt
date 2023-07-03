@@ -336,18 +336,9 @@ export class HomeComponent implements AfterViewInit {
 
   constructor(
     private modalGalleryService: ModalGalleryService,
-    private ws: SignalrService,
-    private renderer: Renderer2
+    private ws: SignalrService
   ) {
-    // this.ws.connect((anomaly: string) => {
-    //   this.dataSource.push({
-    //     position: 1,
-    //     name: anomaly,
-    //     weight: 1.0079,
-    //     symbol: 'H',
-    //   });
-    //   this.table.renderRows();
-    // });
+    console.log('TESTÃO', this.ws.connection.state);
   }
 
   ngAfterViewInit(): void {
@@ -511,9 +502,23 @@ export class HomeComponent implements AfterViewInit {
     }`;
   }
 
-  filter() {
-    console.log('FILTER', this.operator.nativeElement.value);
-    this.ws.filter(this.operator.nativeElement.value);
+  filter(e: Event) {
+    e.preventDefault();
+    this.dataSource = [];
+    this.ws.filter(
+      this.operator.nativeElement.value + 'LEGAL',
+      this.operator.nativeElement.value,
+      (anomaly: string) => {
+        console.log('CARREGANDO | ', anomaly);
+        this.dataSource.push({
+          position: 1,
+          name: anomaly,
+          weight: 1.0079,
+          symbol: 'H',
+        });
+        this.table.renderRows();
+      }
+    );
   }
 
   swapHotkeys(): void {
